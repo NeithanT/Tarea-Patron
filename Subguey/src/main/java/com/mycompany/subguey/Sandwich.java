@@ -4,10 +4,6 @@
  */
 package com.mycompany.subguey;
 
-/**
- *
- * @author Alina
- */
 public abstract class Sandwich implements ISandwich {
     
     protected String tipo; //segun la proteina
@@ -28,7 +24,7 @@ public abstract class Sandwich implements ISandwich {
     
     @Override
     public String getDescripcion(){
-        String descripcion = "Sandwich de" + tipo + " de " + tamano + "cm";
+        String descripcion = "Sandwich de" + tipo + " de " + tamano + "cm (" + precioBase + ")";
         return descripcion; 
     }
     

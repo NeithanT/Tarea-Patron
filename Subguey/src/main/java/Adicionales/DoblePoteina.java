@@ -6,10 +6,6 @@ package Adicionales;
 
 import com.mycompany.subguey.ISandwich;
 
-/**
- *
- * @author Alina
- */
 public class DoblePoteina extends AdicionalDecorator{
     //CONSTRUCTOR
     public DoblePoteina(ISandwich sandwich, int tamano) {

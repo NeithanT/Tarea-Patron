@@ -6,10 +6,6 @@ package Adicionales;
 
 import com.mycompany.subguey.ISandwich;
 
-/**
- *
- * @author Alina
- */
 public class Refresco extends AdicionalDecorator  {
     //CONSTRUCTOR
     public Refresco(ISandwich sandwich) {

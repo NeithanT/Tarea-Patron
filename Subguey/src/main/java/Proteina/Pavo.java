@@ -7,10 +7,6 @@ package Proteina;
 import com.mycompany.subguey.Sandwich;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Alina
- */
 public class Pavo extends Sandwich{
     
     //CONSTRUCTOR

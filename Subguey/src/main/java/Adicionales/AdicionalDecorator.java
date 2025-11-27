@@ -6,10 +6,6 @@ package Adicionales;
 
 import com.mycompany.subguey.ISandwich;
 
-/**
- *
- * @author Alina
- */
 public abstract class AdicionalDecorator implements ISandwich {
     
     protected ISandwich sandwich; //el sandwich a decorar
@@ -30,7 +26,7 @@ public abstract class AdicionalDecorator implements ISandwich {
 
     @Override
     public String getDescripcion() {
-        return sandwich.getDescripcion() + " + " + nombreAdicional;
+        return sandwich.getDescripcion() + " + " + nombreAdicional + ("($") + precioAdicional + ")";
     }
     
 }

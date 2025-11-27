@@ -6,10 +6,6 @@ package Adicionales;
 
 import com.mycompany.subguey.ISandwich;
 
-/**
- *
- * @author Alina
- */
 public class Aguacate extends AdicionalDecorator {
     
     //CONSTRUCTOR

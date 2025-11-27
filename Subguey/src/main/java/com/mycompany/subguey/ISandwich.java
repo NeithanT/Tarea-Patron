@@ -4,10 +4,6 @@
  */
 package com.mycompany.subguey;
 
-/**
- *
- * @author Alina
- */
 public interface ISandwich {
     
     double getPrecio();

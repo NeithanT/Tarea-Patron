@@ -4,10 +4,6 @@
 
 package com.mycompany.subguey;
 
-/**
- *
- * @author Alina
- */
 public class Subguey {
 
     public static void main(String[] args) {

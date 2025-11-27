@@ -6,10 +6,6 @@ package Proteina;
 
 import com.mycompany.subguey.Sandwich;
 
-/**
- *
- * @author Alina
- */
 public class Pollo extends Sandwich {
     //CONSTRUCTOR
     public Pollo(int tamano) {

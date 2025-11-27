@@ -6,10 +6,6 @@ package Proteina;
 
 import com.mycompany.subguey.Sandwich;
 
-/**
- *
- * @author Alina
- */
 public class Beef extends Sandwich{
     
     //CONSTRUCTOR

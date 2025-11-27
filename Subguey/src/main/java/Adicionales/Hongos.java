@@ -6,10 +6,6 @@ package Adicionales;
 
 import com.mycompany.subguey.ISandwich;
 
-/**
- *
- * @author Alina
- */
 public class Hongos extends AdicionalDecorator{
     //CONSTRUCTOR
     public Hongos(ISandwich sandwich, int tamano) {

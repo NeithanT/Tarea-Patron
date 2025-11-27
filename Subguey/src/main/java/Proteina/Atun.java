@@ -6,10 +6,6 @@ package Proteina;
 
 import com.mycompany.subguey.Sandwich;
 
-/**
- *
- * @author Alina
- */
 public class Atun extends Sandwich{
     //CONSTRUCTOR
     public Atun(int tamano) {
