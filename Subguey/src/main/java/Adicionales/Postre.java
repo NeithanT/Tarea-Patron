@@ -4,10 +4,15 @@
  */
 package Adicionales;
 
+import com.mycompany.subguey.ISandwich;
+
 /**
  *
  * @author Alina
  */
-public class Postre {
-    
+public class Postre extends AdicionalDecorator{
+    //CONSTRUCTOR
+    public Postre(ISandwich sandwich) {
+        super(sandwich, 3.5 , "galleta");
+    }
 }

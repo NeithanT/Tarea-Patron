@@ -4,10 +4,15 @@
  */
 package Adicionales;
 
+import com.mycompany.subguey.ISandwich;
+
 /**
  *
  * @author Alina
  */
-public class Refresco {
-    
+public class Refresco extends AdicionalDecorator  {
+    //CONSTRUCTOR
+    public Refresco(ISandwich sandwich) {
+        super(sandwich, 1.0, "Refresco");
+    }
 }

@@ -21,7 +21,7 @@ public class DoblePoteina extends AdicionalDecorator{
             case 15:
                 return 4.5;
             case 30:
-                return 8.;
+                return 8.0;
             default: //para tamanos invalidos
                 return 4.5;
         }
