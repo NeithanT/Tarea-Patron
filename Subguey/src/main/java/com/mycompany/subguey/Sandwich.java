@@ -24,7 +24,7 @@ public abstract class Sandwich implements ISandwich {
     
     @Override
     public String getDescripcion(){
-        String descripcion = "Sandwich de" + tipo + " de " + tamano + "cm (" + precioBase + ")";
+        String descripcion = "Sandwich de " + tipo + " de " + tamano + "cm (" + precioBase + ")";
         return descripcion; 
     }
     

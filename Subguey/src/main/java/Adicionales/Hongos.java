@@ -15,7 +15,7 @@ public class Hongos extends AdicionalDecorator{
     private static double calcularPrecio(int tamano) {
         switch (tamano) {
             case 15:
-                return 0.8;
+                return 0.85;
             case 30:
                 return 1.45;
             default: //para tamanos invalidos
