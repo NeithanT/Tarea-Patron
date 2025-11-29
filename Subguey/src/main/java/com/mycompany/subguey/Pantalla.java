@@ -23,42 +23,83 @@ public class Pantalla extends javax.swing.JFrame {
     private ISandwich sandwichActual;
     private int tamanoActual; //tamano del sandwich en el que se esta trabajando
     private Orden orden;
+    private VerSandwich sandwichGUI;
+    private boolean proteinaSeleccionada; //para controlar si ya se seleccionó una proteína
+    private boolean tamanoSeleccionado; //para controlar si ya se seleccionó un tamaño
+    private String proteinaActual; //para guardar el nombre de la proteína seleccionada
     
     public Pantalla() {
+        System.out.println("Iniciando componentes...");
         initComponents();
-        orden = new Orden(); //inicializar la orden
 
-        //Configuraciones adicionales para asegurar que la ventana se muestre
+        System.out.println("Creando orden...");
+        orden = new Orden(); //inicializar la orden
+        proteinaSeleccionada = false; //inicialmente no hay proteína seleccionada
+        tamanoSeleccionado = false; //inicialmente no hay tamaño seleccionado
+
+        System.out.println("Creando vista del sandwich...");
+        sandwichGUI = new VerSandwich(); //inicializar la vista del sandwich
+
+        //asegurar que la ventana se muestre
+        System.out.println("Configurando ventana...");
         setTitle("Subguey - Sistema de Pedidos");
         setLocationRelativeTo(null); //centrar en pantalla
         setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+
+        //agregar el panel de sandwich a la interfaz
+        System.out.println("Agregando panel de sandwich...");
+        pnlSandwich.setLayout(new java.awt.BorderLayout());
+        pnlSandwich.add(sandwichGUI, java.awt.BorderLayout.CENTER);
+
+        System.out.println("Constructor completado. Pantalla lista.");
     }
     
-    private void crearSandwich(ISandwich nuevoSandwich){
+    private void crearSandwich(ISandwich nuevoSandwich, String nombreProteina){
         sandwichActual = nuevoSandwich;
-        actualizarPantalla();
+        proteinaSeleccionada = true;
+        proteinaActual = nombreProteina; //guardar el nombre de la proteína
+
+        //deshabilitar todos los radio buttons de proteína excepto el seleccionado
+        rbtnPavo.setEnabled(nombreProteina.equals("pavo"));
+        rbtnVeggie.setEnabled(nombreProteina.equals("veggie"));
+        rbtnItaliano.setEnabled(nombreProteina.equals("italiano"));
+        rbtnBeef.setEnabled(nombreProteina.equals("beef"));
+        rbtnPollo.setEnabled(nombreProteina.equals("pollo"));
+        rbtnAtun.setEnabled(nombreProteina.equals("atun"));
     }
     
     private void nuevoSandwich() {
         sandwichActual = null;
+        proteinaSeleccionada = false;
+        proteinaActual = null;
+        tamanoSeleccionado = false;
         btgTipo.clearSelection();
+        btgTamano.clearSelection();
+        sandwichGUI.reiniciar();
+
+        //habilitar de nuevo todos los radio buttons de proteína
+        rbtnPavo.setEnabled(true);
+        rbtnVeggie.setEnabled(true);
+        rbtnItaliano.setEnabled(true);
+        rbtnBeef.setEnabled(true);
+        rbtnPollo.setEnabled(true);
+        rbtnAtun.setEnabled(true);
+
+        //habilitar de nuevo los radio buttons de tamaño
+        rbtnTamanoPequeno.setEnabled(true);
+        rbtnTamanoGrande.setEnabled(true);
     }
     
-    private void agregarAdicional(ISandwich sandwichDecorado) {
-        
+    private void agregarAdicional(ISandwich sandwichDecorado, String nombreImagen) {
+
         //por si el sandwich aun no esta creado
         if (sandwichActual == null) {
             JOptionPane.showMessageDialog(this, "Primero debes seleccionar un tipo de proteína", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
-        sandwichActual = sandwichDecorado;
-        actualizarPantalla();
-    }
-    
-    private void actualizarPantalla(){
-        
 
+        sandwichActual = sandwichDecorado;
+        sandwichGUI.agregarAdicional(nombreImagen);
     }
     
 
@@ -160,71 +201,88 @@ public class Pantalla extends javax.swing.JFrame {
         btnTerminarOrden.setBackground(new java.awt.Color(228, 228, 228));
         btnTerminarOrden.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnTerminarOrden.setText("Terminar orden");
-        btnTerminarOrden.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(153, 153, 153), null));
+        btnTerminarOrden.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(153, 153, 153), null, java.awt.Color.darkGray, java.awt.Color.lightGray));
         btnTerminarOrden.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTerminarOrdenActionPerformed(evt);
             }
         });
 
+        rbtnTamanoGrande.setBackground(new java.awt.Color(255, 203, 10));
         btgTamano.add(rbtnTamanoGrande);
         rbtnTamanoGrande.setText("30cm");
+        rbtnTamanoGrande.setBorder(null);
+        rbtnTamanoGrande.setOpaque(true);
         rbtnTamanoGrande.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnTamanoGrandeActionPerformed(evt);
             }
         });
 
+        rbtnTamanoPequeno.setBackground(new java.awt.Color(255, 203, 10));
         btgTamano.add(rbtnTamanoPequeno);
         rbtnTamanoPequeno.setText("15cm");
+        rbtnTamanoPequeno.setOpaque(true);
         rbtnTamanoPequeno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnTamanoPequenoActionPerformed(evt);
             }
         });
 
+        rbtnPavo.setBackground(new java.awt.Color(255, 203, 10));
         btgTipo.add(rbtnPavo);
         rbtnPavo.setText("Pavo");
+        rbtnPavo.setOpaque(true);
         rbtnPavo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnPavoActionPerformed(evt);
             }
         });
 
+        rbtnVeggie.setBackground(new java.awt.Color(255, 203, 10));
         btgTipo.add(rbtnVeggie);
         rbtnVeggie.setText("Veggie");
+        rbtnVeggie.setOpaque(true);
         rbtnVeggie.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnVeggieActionPerformed(evt);
             }
         });
 
+        rbtnItaliano.setBackground(new java.awt.Color(255, 203, 10));
         btgTipo.add(rbtnItaliano);
         rbtnItaliano.setText("Italiano");
+        rbtnItaliano.setOpaque(true);
         rbtnItaliano.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnItalianoActionPerformed(evt);
             }
         });
 
+        rbtnBeef.setBackground(new java.awt.Color(255, 203, 10));
         btgTipo.add(rbtnBeef);
         rbtnBeef.setText("Beef");
+        rbtnBeef.setOpaque(true);
         rbtnBeef.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnBeefActionPerformed(evt);
             }
         });
 
+        rbtnPollo.setBackground(new java.awt.Color(255, 203, 10));
         btgTipo.add(rbtnPollo);
         rbtnPollo.setText("Pollo");
+        rbtnPollo.setOpaque(true);
         rbtnPollo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnPolloActionPerformed(evt);
             }
         });
 
+        rbtnAtun.setBackground(new java.awt.Color(255, 203, 10));
         btgTipo.add(rbtnAtun);
         rbtnAtun.setText("Atún");
+        rbtnAtun.setOpaque(true);
         rbtnAtun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnAtunActionPerformed(evt);
@@ -234,7 +292,7 @@ public class Pantalla extends javax.swing.JFrame {
         btnAgregar.setBackground(new java.awt.Color(228, 228, 228));
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAgregar.setText("Agregar a la orden");
-        btnAgregar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(153, 153, 153), null));
+        btnAgregar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(153, 153, 153), null, java.awt.Color.darkGray, java.awt.Color.lightGray));
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
@@ -369,59 +427,95 @@ public class Pantalla extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void rbtnVeggieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnVeggieActionPerformed
-        crearSandwich(new Veggie(tamanoActual));
+        if (!proteinaSeleccionada) {
+            crearSandwich(new Veggie(tamanoActual), "veggie");
+            sandwichGUI.agregarProteina("veggie");
+        }
     }//GEN-LAST:event_rbtnVeggieActionPerformed
 
     private void rbtnTamanoPequenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnTamanoPequenoActionPerformed
-        tamanoActual = 15;
+        if (!tamanoSeleccionado) {
+            tamanoActual = 15;
+            tamanoSeleccionado = true;
+            rbtnTamanoGrande.setEnabled(false); // Deshabilitar el otro tamaño
+        }
     }//GEN-LAST:event_rbtnTamanoPequenoActionPerformed
 
     private void rbtnTamanoGrandeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnTamanoGrandeActionPerformed
-        tamanoActual = 30;
+        if (!tamanoSeleccionado) {
+            tamanoActual = 30;
+            tamanoSeleccionado = true;
+            rbtnTamanoPequeno.setEnabled(false); // Deshabilitar el otro tamaño
+        }
     }//GEN-LAST:event_rbtnTamanoGrandeActionPerformed
 
     private void rbtnPavoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnPavoActionPerformed
-        crearSandwich(new Pavo(tamanoActual));
+        if (!proteinaSeleccionada) {
+            crearSandwich(new Pavo(tamanoActual), "pavo");
+            sandwichGUI.agregarProteina("pavo");
+        }
     }//GEN-LAST:event_rbtnPavoActionPerformed
 
     private void rbtnItalianoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnItalianoActionPerformed
-        crearSandwich(new Italiano(tamanoActual));
+        if (!proteinaSeleccionada) {
+            crearSandwich(new Italiano(tamanoActual), "italiano");
+            sandwichGUI.agregarProteina("italiano");
+        }
     }//GEN-LAST:event_rbtnItalianoActionPerformed
 
     private void rbtnBeefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnBeefActionPerformed
-        crearSandwich(new Beef(tamanoActual));
+        if (!proteinaSeleccionada) {
+            crearSandwich(new Beef(tamanoActual), "beef");
+            sandwichGUI.agregarProteina("beef");
+        }
     }//GEN-LAST:event_rbtnBeefActionPerformed
 
     private void rbtnAtunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnAtunActionPerformed
-        crearSandwich(new Atun(tamanoActual));
+        if (!proteinaSeleccionada) {
+            crearSandwich(new Atun(tamanoActual), "atun");
+            sandwichGUI.agregarProteina("atun");
+        }
     }//GEN-LAST:event_rbtnAtunActionPerformed
 
     private void rbtnPolloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnPolloActionPerformed
-        crearSandwich(new Pollo(tamanoActual));
+        if (!proteinaSeleccionada) {
+            crearSandwich(new Pollo(tamanoActual), "pollo");
+            sandwichGUI.agregarProteina("pollo");
+        }
     }//GEN-LAST:event_rbtnPolloActionPerformed
 
     private void btnAguacateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAguacateActionPerformed
-        agregarAdicional(new Aguacate(sandwichActual, tamanoActual));
+        agregarAdicional(new Aguacate(sandwichActual, tamanoActual), "aguacate.png");
     }//GEN-LAST:event_btnAguacateActionPerformed
 
     private void btnDobleProteinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDobleProteinaActionPerformed
-        agregarAdicional(new DoblePoteina(sandwichActual, tamanoActual));
+        //verificar que haya una proteína seleccionada
+        if (sandwichActual == null) {
+            JOptionPane.showMessageDialog(this, "Primero debes seleccionar un tipo de proteína", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        //agregar el decorador de doble proteína
+        sandwichActual = new DoblePoteina(sandwichActual, tamanoActual);
+
+        //agregar segunda imagen de la proteína seleccionada
+        sandwichGUI.agregarProteina(proteinaActual);
     }//GEN-LAST:event_btnDobleProteinaActionPerformed
 
     private void btnHongosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHongosActionPerformed
-        agregarAdicional(new Hongos(sandwichActual, tamanoActual));
+        agregarAdicional(new Hongos(sandwichActual, tamanoActual), "hongos.png");
     }//GEN-LAST:event_btnHongosActionPerformed
 
     private void btnRefrescoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefrescoActionPerformed
-        agregarAdicional(new Refresco(sandwichActual));
+        agregarAdicional(new Refresco(sandwichActual), "refresco.png");
     }//GEN-LAST:event_btnRefrescoActionPerformed
 
     private void btnSopaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSopaActionPerformed
-        agregarAdicional(new Sopa(sandwichActual));
+        agregarAdicional(new Sopa(sandwichActual), "sopa.png");
     }//GEN-LAST:event_btnSopaActionPerformed
 
     private void btnPostreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostreActionPerformed
-        agregarAdicional(new Postre(sandwichActual));
+        agregarAdicional(new Postre(sandwichActual), "galleta.png");
     }//GEN-LAST:event_btnPostreActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -430,6 +524,8 @@ public class Pantalla extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Primero debes crear un sándwich", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        
+        sandwichGUI.agregarPanTop();
 
         orden.agregarSandwich(sandwichActual);
         JOptionPane.showMessageDialog(this, "Sándwich agregado a la orden", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -451,8 +547,23 @@ public class Pantalla extends javax.swing.JFrame {
         //limpiar
         orden.limpiarOrden();
         sandwichActual = null;
+        proteinaSeleccionada = false;
+        proteinaActual = null;
+        tamanoSeleccionado = false;
         btgTipo.clearSelection();
         btgTamano.clearSelection();
+
+        //habilitar de nuevo todos los radio buttons de proteína
+        rbtnPavo.setEnabled(true);
+        rbtnVeggie.setEnabled(true);
+        rbtnItaliano.setEnabled(true);
+        rbtnBeef.setEnabled(true);
+        rbtnPollo.setEnabled(true);
+        rbtnAtun.setEnabled(true);
+
+        //habilitar de nuevo los radio buttons de tamaño
+        rbtnTamanoPequeno.setEnabled(true);
+        rbtnTamanoGrande.setEnabled(true);
     }//GEN-LAST:event_btnTerminarOrdenActionPerformed
 
     /**
